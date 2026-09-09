@@ -1,0 +1,830 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>PLSC 502 Week 3 Notes (Copy)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js" id="MathJax-script" async></script>
+
+<style>
+  :root{
+    --bg:#F5F3EE;
+    --surface:#FFFFFF;
+    --surface-2:#ECE7DA;
+    --ink:#221F1C;
+    --ink-soft:#5B564C;
+    --ink-faint:#8C8577;
+    --accent:#8B3A3A;
+    --accent-soft:#F1E1DC;
+    --accent-2:#2F5D62;
+    --accent-2-soft:#DEEAEA;
+    --rule:#DBD5C6;
+    --code-bg:#EEE8DA;
+    --shadow:rgba(35,28,15,0.10);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1A1815;
+      --surface:#221F1B;
+      --surface-2:#2A2621;
+      --ink:#EEE8DC;
+      --ink-soft:#B6AD9C;
+      --ink-faint:#867E6E;
+      --accent:#DE9A93;
+      --accent-soft:rgba(222,154,147,0.14);
+      --accent-2:#84C4C6;
+      --accent-2-soft:rgba(132,196,198,0.14);
+      --rule:#3A352C;
+      --code-bg:#282419;
+      --shadow:rgba(0,0,0,0.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1A1815;
+    --surface:#221F1B;
+    --surface-2:#2A2621;
+    --ink:#EEE8DC;
+    --ink-soft:#B6AD9C;
+    --ink-faint:#867E6E;
+    --accent:#DE9A93;
+    --accent-soft:rgba(222,154,147,0.14);
+    --accent-2:#84C4C6;
+    --accent-2-soft:rgba(132,196,198,0.14);
+    --rule:#3A352C;
+    --code-bg:#282419;
+    --shadow:rgba(0,0,0,0.45);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    font-size:16px;
+    line-height:1.62;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    color:var(--ink);
+    text-wrap:balance;
+    line-height:1.18;
+  }
+  a{color:var(--accent-2);}
+  code, .mono{ font-family:'IBM Plex Mono', ui-monospace, monospace; }
+
+  .shell{
+    display:grid;
+    grid-template-columns: 264px minmax(0,1fr);
+    max-width:1200px;
+    margin:0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  nav.toc{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:28px 18px 28px 28px;
+    border-right:1px solid var(--rule);
+  }
+  .toc-brand{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    font-size:1.05rem;
+    margin-bottom:2px;
+  }
+  .toc-brand small{
+    display:block;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:500;
+    font-size:0.72rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-top:4px;
+  }
+  .toc-list{ list-style:none; margin:22px 0 0; padding:0; }
+  .toc-group{ margin-bottom:18px; }
+  .toc-group-label{
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 6px;
+  }
+  .toc-list a{
+    display:block;
+    padding:5px 0 5px 12px;
+    border-left:2px solid transparent;
+    color:var(--ink-soft);
+    text-decoration:none;
+    font-size:0.87rem;
+  }
+  .toc-list a:hover{ color:var(--ink); border-left-color:var(--rule); }
+  .toc-list a.quiz-link{ color:var(--accent); }
+
+  /* ---------- Main ---------- */
+  main{ padding:44px 48px 90px; min-width:0; }
+  .prose{ max-width:70ch; }
+  header.hero{ max-width:78ch; margin-bottom:40px; }
+  header.hero h1{ font-size:2.35rem; margin:0 0 10px; }
+  header.hero .dek{ font-size:1.05rem; color:var(--ink-soft); margin:0 0 18px; max-width:62ch; }
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:8px 10px;
+    font-size:0.78rem; color:var(--ink-faint);
+  }
+  .hero-meta span{
+    background:var(--surface-2);
+    padding:3px 10px;
+    border-radius:100px;
+  }
+
+  section{ margin:56px 0; scroll-margin-top:20px; }
+  section h2{ font-size:1.55rem; margin:0 0 6px; }
+  section > .kicker{
+    display:flex; align-items:center; gap:8px;
+    font-size:0.68rem; letter-spacing:0.09em; text-transform:uppercase;
+    color:var(--accent); font-weight:600; margin-bottom:10px;
+  }
+  .kicker::before{ content:""; width:22px; height:1px; background:var(--accent); display:inline-block; }
+
+  .sources{
+    display:flex; flex-wrap:wrap; gap:6px;
+    margin:14px 0 22px;
+  }
+  .src-tag{
+    font-size:0.72rem;
+    padding:4px 10px;
+    border-radius:6px;
+    background:var(--accent-2-soft);
+    color:var(--accent-2);
+    border:1px solid transparent;
+    font-weight:500;
+  }
+  .src-tag.text{ background:var(--surface-2); color:var(--ink-soft); }
+
+  p{ margin:0 0 14px; }
+  ul, ol{ margin:0 0 16px; padding-left:1.3em; }
+  li{ margin-bottom:6px; }
+  strong{ color:var(--ink); }
+  .note-strong{ color:var(--accent-2); font-weight:600; }
+
+  .callout{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-left:4px solid var(--accent-2);
+    border-radius:8px;
+    padding:16px 20px;
+    margin:18px 0;
+    box-shadow:0 1px 2px var(--shadow);
+  }
+  .callout.warn{ border-left-color:var(--accent); }
+  .callout h4{ margin:0 0 6px; font-size:0.95rem; font-family:'IBM Plex Sans',sans-serif; font-weight:700; }
+
+  .formula-box{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-radius:10px;
+    padding:18px 22px;
+    margin:16px 0;
+    overflow-x:auto;
+  }
+  .formula-box .label{
+    font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--ink-faint); margin-bottom:6px;
+  }
+
+  pre{
+    background:var(--code-bg);
+    border-radius:8px;
+    padding:14px 16px;
+    overflow-x:auto;
+    font-size:0.85rem;
+    margin:12px 0;
+    border:1px solid var(--rule);
+  }
+  code{ font-size:0.88em; }
+  p code, li code{ background:var(--code-bg); padding:1px 5px; border-radius:4px; }
+
+  table{ border-collapse:collapse; width:100%; margin:16px 0; font-size:0.92rem; }
+  caption{ text-align:left; font-size:0.78rem; color:var(--ink-faint); margin-bottom:6px; }
+  th, td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  th{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-faint); font-weight:600; }
+  tr:last-child td{ border-bottom:none; }
+  .tbl-wrap{ overflow-x:auto; }
+
+  .map-table td:first-child, .map-table th:first-child{ font-weight:600; color:var(--ink); }
+
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:700px){ .grid-2, .grid-3{ grid-template-columns:1fr; } }
+
+  .chip-card{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-radius:8px;
+    padding:12px 14px;
+  }
+  .chip-card .t{ font-weight:600; font-size:0.85rem; margin-bottom:3px; }
+  .chip-card .d{ font-size:0.82rem; color:var(--ink-soft); }
+
+  hr.rule{ border:none; border-top:1px solid var(--rule); margin:0; }
+
+  /* ---------- Quiz ---------- */
+  .quiz-item{
+    background:var(--surface);
+    border:1px solid var(--rule);
+    border-radius:12px;
+    margin:22px 0;
+    overflow:hidden;
+    box-shadow:0 1px 3px var(--shadow);
+  }
+  .quiz-q{
+    display:flex; gap:14px;
+    padding:18px 22px;
+    background:var(--surface-2);
+  }
+  .quiz-num{
+    flex:none;
+    width:34px; height:34px; border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces',serif; font-weight:700; font-size:1rem;
+  }
+  .quiz-q .qtext{ padding-top:3px; font-size:0.98rem; }
+  .quiz-a{ padding:18px 22px 20px 70px; }
+  .quiz-a h5{
+    margin:0 0 10px; font-size:0.72rem; letter-spacing:0.07em; text-transform:uppercase;
+    color:var(--accent-2); font-weight:700;
+  }
+  .quiz-a .part{ margin-bottom:12px; }
+  .quiz-a .part:last-child{ margin-bottom:0; }
+  .quiz-a .plabel{ font-weight:600; color:var(--ink); }
+  .quiz-see{
+    display:inline-block; margin-top:6px;
+    font-size:0.78rem; color:var(--ink-faint);
+  }
+  .quiz-see a{ color:var(--ink-faint); text-decoration:underline; }
+
+  /* ---------- Ref sheet ---------- */
+  .ref-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  @media (max-width:700px){ .ref-grid{ grid-template-columns:1fr; } }
+  .ref-card{
+    background:var(--surface); border:1px solid var(--rule); border-radius:10px;
+    padding:14px 18px;
+  }
+  .ref-card .name{ font-weight:600; font-size:0.88rem; margin-bottom:6px; color:var(--accent); }
+
+  footer{
+    max-width:70ch; padding-top:24px; margin-top:40px; border-top:1px solid var(--rule);
+    color:var(--ink-faint); font-size:0.82rem;
+  }
+
+  /* Mobile */
+  @media (max-width:880px){
+    .shell{ grid-template-columns:1fr; }
+    nav.toc{
+      position:static; height:auto; border-right:none; border-bottom:1px solid var(--rule);
+      padding:20px 20px 14px;
+    }
+    .toc-list{ display:flex; flex-wrap:wrap; gap:2px 14px; margin-top:14px; }
+    .toc-group{ display:contents; }
+    .toc-group-label{ display:none; }
+    .toc-list a{ padding:4px 0; border-left:none; font-size:0.84rem; }
+    main{ padding:32px 20px 70px; }
+    header.hero h1{ font-size:1.85rem; }
+    .grid-2, .ref-grid{ grid-template-columns:1fr; }
+    .quiz-a{ padding-left:22px; }
+  }
+
+  mjx-container{ color:var(--ink) !important; }
+</style>
+
+<div class="shell">
+  <nav class="toc" aria-label="Table of contents">
+    <div class="toc-brand">PLSC 502 <small>Week 3 &middot; Pre-Lecture Notes</small></div>
+    <ul class="toc-list">
+      <li class="toc-group">
+        <p class="toc-group-label">Orientation</p>
+        <a href="#map">Reading map</a>
+      </li>
+      <li class="toc-group">
+        <p class="toc-group-label">Foundations</p>
+        <a href="#calculus">Calculus refresher</a>
+        <a href="#measurement">Measurement &amp; data</a>
+      </li>
+      <li class="toc-group">
+        <p class="toc-group-label">Univariate</p>
+        <a href="#central">Central tendency</a>
+        <a href="#dispersion">Dispersion &amp; shape</a>
+      </li>
+      <li class="toc-group">
+        <p class="toc-group-label">Bivariate</p>
+        <a href="#relationships">Covariance &amp; correlation</a>
+        <a href="#regression">Regression</a>
+      </li>
+      <li class="toc-group">
+        <p class="toc-group-label">Graphics</p>
+        <a href="#viz">Visualization</a>
+      </li>
+      <li class="toc-group">
+        <p class="toc-group-label">Practice</p>
+        <a href="#quiz" class="quiz-link">Quiz 3, worked</a>
+        <a href="#formulas">Formula sheet</a>
+      </li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <h1>Descriptive Statistics, Visualization, and the Calculus Under the Hood</h1>
+      <p class="dek">Pre-lecture notes for Week 3 of PLSC 502 (Statistical Methods for Political Research, Jared Edgerton), built from this week's slide decks, the assigned Gailmard chapter, and Practice Quiz 3 &mdash; with every section tagged to where it lives in your readings.</p>
+      <div class="hero-meta">
+        <span>Week 3 slide decks (01 &amp; 02)</span>
+        <span>Gailmard, <em>Stat. Modeling &amp; Inference for Social Science</em>, Ch. 2</span>
+        <span>Imai, <em>QSS</em>, Ch. 3</span>
+        <span>Gill, <em>Essential Mathematics</em>, Ch. 3&ndash;4, &sect;8.4&ndash;8.6</span>
+        <span>Practice Quiz 3 + Key</span>
+      </div>
+    </header>
+
+    <section id="map">
+      <p class="kicker">How to use this</p>
+      <h2>Reading map</h2>
+      <p>Everything below is organized by topic, not by source, because that's how the quiz will test you. Each section header is tagged with exactly where that material comes from. The two slide decks overlap in places &mdash; <code>week_03_01</code> carries the calculus refresher and the theory of moments, <code>week_03_02</code> carries measurement, dispersion, and regression &mdash; and <code>week_03.pdf</code> is a combined deck drawn from both, so you don't need to treat it as a fourth source.</p>
+      <p>One honesty note: I don't have your copies of Imai or Gill, so I can't cite exact page numbers for them. The Gill pointer for central tendency, dispersion, and covariance (&sect;8.4&ndash;8.6) is the one you gave me directly; the Chapter 3&ndash;4 pointer for calculus, and the Imai Chapter 3 pointer for measurement, are topic-matches based on what those chapters standardly cover and how closely they track your slides and Gailmard &mdash; worth a quick skim to confirm your editions line up the same way.</p>
+      <div class="tbl-wrap">
+        <table class="map-table">
+          <thead><tr><th>Topic</th><th>Lecture slides</th><th>Gailmard Ch. 2 (uploaded)</th><th>Imai / Gill (assigned)</th></tr></thead>
+          <tbody>
+            <tr><td>Calculus refresher</td><td>week_03_01, slides 2&ndash;19</td><td>&mdash; (Ch. 2 appendix uses it, doesn't teach it)</td><td>Gill Ch. 3 (differentiation), Ch. 4 (integration)</td></tr>
+            <tr><td>Measurement scales, index construction, validity</td><td>week_03_02, slides 2&ndash;4</td><td>&sect;2.1 &ndash; &sect;2.1.3</td><td>Imai Ch. 3, &ldquo;Measurement&rdquo;</td></tr>
+            <tr><td>Mean, median, mode</td><td>week_03_01 slide 3; week_03_02 slide 5</td><td>&sect;2.2.1</td><td>Gill &sect;8.4</td></tr>
+            <tr><td>Variance, SD, IQR, outliers</td><td>week_03_02 slides 6&ndash;8</td><td>&sect;2.2.2</td><td>Gill &sect;8.5</td></tr>
+            <tr><td>Skewness, kurtosis, method of moments</td><td>week_03_01 slides 22&ndash;27</td><td>not covered (Gailmard stops at variance)</td><td>&mdash;</td></tr>
+            <tr><td>Crosstabs, conditional means, covariance, correlation</td><td>week_03_02 slides 9&ndash;12</td><td>&sect;2.3.2 &ndash; &sect;2.3.4</td><td>Gill &sect;8.6</td></tr>
+            <tr><td>Simple &amp; multiple regression, OLS, R&sup2;</td><td>week_03_02 slides 13&ndash;17</td><td>&sect;2.3.5 &ndash; &sect;2.3.7 + appendix</td><td>&mdash;</td></tr>
+            <tr><td>Histograms, boxplots, scatterplots, viz pitfalls</td><td>week_03_02 slides 18&ndash;21</td><td>&sect;2.2.3, &sect;2.3.1</td><td>&mdash;</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="calculus">
+      <p class="kicker">week_03_01, slides 2&ndash;19 &middot; Gill Ch. 3&ndash;4</p>
+      <h2>Calculus refresher</h2>
+      <div class="sources">
+        <span class="src-tag">Slides: Descriptive Stats &amp; Data Viz 01</span>
+        <span class="src-tag text">Gill, Essential Mathematics, Ch. 3&ndash;4</span>
+      </div>
+      <p>This isn't calculus for its own sake &mdash; every piece here reappears later in the course as the engine behind an estimator. Differentiation is how we find the value that <em>minimizes</em> something (squared error, a negative log-likelihood); integration is how we compute probabilities and expectations over continuous distributions. Keep that motivation in view and the notation stops feeling arbitrary.</p>
+
+      <h3>Notation you'll see everywhere</h3>
+      <div class="grid-3">
+        <div class="chip-card"><div class="t">\(\mu\)</div><div class="d">population mean</div></div>
+        <div class="chip-card"><div class="t">\(\sigma\)</div><div class="d">standard deviation</div></div>
+        <div class="chip-card"><div class="t">\(\theta\), \(\hat\theta\)</div><div class="d">unknown parameter, its estimate</div></div>
+        <div class="chip-card"><div class="t">\(\sum_{i=1}^n x_i\)</div><div class="d">summation</div></div>
+        <div class="chip-card"><div class="t">\(\prod_{i=1}^n x_i\)</div><div class="d">product</div></div>
+        <div class="chip-card"><div class="t">\(\frac{df(x)}{dx}\), \(f'(x)\)</div><div class="d">derivative, two notations for the same thing</div></div>
+      </div>
+
+      <h3>Differentiation</h3>
+      <p>A derivative is an instantaneous rate of change, defined as a limit:</p>
+      <div class="formula-box">\[ \frac{d}{dx}[f(x)] = \lim_{h\to0}\frac{f(x+h)-f(x)}{h} \]</div>
+      <p>The forms you'll actually reuse:</p>
+      <div class="grid-2">
+        <div class="chip-card"><div class="t">\(\frac{d}{dx}[x^n]=nx^{n-1}\)</div><div class="d">power rule, e.g. \(\frac{d}{dx}[x^2]=2x\), \(\frac{d}{dx}[x^{-2}]=-2x^{-3}\)</div></div>
+        <div class="chip-card"><div class="t">\(\frac{d}{dx}[\sqrt{x}]=\frac{1}{2\sqrt{x}}\)</div><div class="d">fractional exponent &mdash; same power rule, just watch the algebra</div></div>
+        <div class="chip-card"><div class="t">\(\frac{d}{dx}[\ln(x)]=\frac1x\)</div><div class="d">log rule &mdash; central to log-likelihoods</div></div>
+        <div class="chip-card"><div class="t">\(\frac{d}{dx}[e^x]=e^x\)</div><div class="d">the exponential is its own derivative</div></div>
+      </div>
+      <p>Two rules for combining functions:</p>
+      <div class="formula-box">
+        <div class="label">Product rule</div>
+        \[ \frac{d}{dx}[u(x)v(x)] = u'(x)v(x) + u(x)v'(x) \]
+        <p style="margin:8px 0 0;font-size:0.9rem;color:var(--ink-soft)">Example: \(\frac{d}{dx}[x\cdot\ln(x)] = \ln(x)+1\)</p>
+      </div>
+      <div class="formula-box">
+        <div class="label">Chain rule</div>
+        \[ \frac{d}{dx}[f(g(x))] = f'(g(x))\cdot g'(x) \]
+        <p style="margin:8px 0 0;font-size:0.9rem;color:var(--ink-soft)">Example: \(\frac{d}{dx}[\sin(x^2)] = \cos(x^2)\cdot 2x\)</p>
+      </div>
+      <div class="callout">
+        <h4>Why this shows up on the exam later: log-likelihoods</h4>
+        <p>We routinely maximize a log-likelihood \(\ell(\theta) = \sum_{i=1}^n \log f(x_i \mid \theta)\). Differentiating it is chain rule plus the log rule, back to back:</p>
+        <div class="formula-box" style="margin:10px 0 0;">\[ \frac{d\ell}{d\theta} = \sum_{i=1}^n \frac{1}{f(x_i\mid\theta)}\cdot\frac{\partial f(x_i\mid\theta)}{\partial\theta} \]</div>
+      </div>
+
+      <h3>Integration</h3>
+      <p>An integral is the area under a curve, and the useful forms mirror the derivative rules in reverse:</p>
+      <div class="grid-2">
+        <div class="chip-card"><div class="t">\(\int x^n\,dx=\frac{x^{n+1}}{n+1}+C\)</div><div class="d">for \(n\neq-1\)</div></div>
+        <div class="chip-card"><div class="t">\(\int \frac1x\,dx=\ln|x|+C\)</div><div class="d">the \(n=-1\) exception</div></div>
+        <div class="chip-card"><div class="t">\(\int e^{kx}\,dx=\frac1k e^{kx}+C\)</div><div class="d">exponential family</div></div>
+        <div class="chip-card"><div class="t">\(\int \ln(x)\,dx = x\ln(x)-x+C\)</div><div class="d">needs integration by parts to derive</div></div>
+      </div>
+      <div class="formula-box">
+        <div class="label">Substitution (change of variables)</div>
+        \[ \int f(g(x))g'(x)\,dx = \int f(u)\,du \]
+        <p style="margin:8px 0 0;font-size:0.9rem;color:var(--ink-soft)">Example: \(\int 2xe^{x^2}dx\), let \(u=x^2 \Rightarrow du = 2x\,dx\), giving \(\int e^u du = e^{x^2}+C\)</p>
+      </div>
+      <div class="formula-box">
+        <div class="label">Integration by parts</div>
+        \[ \int u\,dv = uv - \int v\,du \]
+        <p style="margin:8px 0 0;font-size:0.9rem;color:var(--ink-soft)">Example: \(\int x\ln(x)\,dx\), with \(u=\ln(x)\), \(dv=x\,dx\), gives \(\frac{x^2}{2}\ln(x) - \frac{x^2}{4}+C\)</p>
+      </div>
+
+      <h3>Partial derivatives &amp; partial integration</h3>
+      <p>A <span class="note-strong">partial derivative</span> measures how a multivariable function changes with respect to one variable, holding the others fixed &mdash; exactly the idea of "holding constant" that runs through multiple regression (see the <a href="#regression">regression section</a>). For \(f(x,y) = x^2y + 3xy^2\):</p>
+      <div class="formula-box">\[ \frac{\partial f}{\partial x} = 2xy+3y^2 \qquad \frac{\partial f}{\partial y} = x^2+6xy \]</div>
+      <p>Political science payoff: if a model has multiple predictors (education, income, regime type), a partial derivative isolates one variable's marginal effect net of the others. It's also how maximum likelihood estimation works with more than one parameter &mdash; take the partial derivative of the log-likelihood with respect to each parameter, set both to zero, and solve simultaneously. For a normal distribution:</p>
+      <div class="formula-box">\[ \ell(\mu,\sigma^2) = -\frac n2\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2 \]</div>
+      <p><span class="note-strong">Partial integration</span> is the mirror image &mdash; treat one variable as fixed while integrating over the other. This is exactly how a marginal density is recovered from a joint density, which is the formal version of the "marginal distribution" you get from the row/column totals of a crosstab (see <a href="#relationships">below</a>):</p>
+      <div class="formula-box">\[ f_X(x) = \int f_{X,Y}(x,y)\,dy \]</div>
+
+      <div class="callout">
+        <h4>Two proofs worth having on hand</h4>
+        <p class="part"><span class="plabel">The mean minimizes squared error.</span> Let \(L(m)=\sum(x_i-m)^2\). Then \(\frac{dL}{dm} = -2\sum(x_i-m)\). Setting this to zero gives \(m = \frac1n\sum x_i = \bar x\). This is why least squares and "the mean" are the same idea wearing different clothes.</p>
+        <p class="part"><span class="plabel">The median minimizes absolute error.</span> Let \(L(m)=\sum_{x_i\le m}(m-x_i) + \sum_{x_i>m}(x_i-m)\). Then \(\frac{dL}{dm}\) is just (# values \(\le m\)) &minus; (# values \(> m\)), which is zero exactly when half the data sits on each side &mdash; the definition of the median.</p>
+      </div>
+    </section>
+
+    <section id="measurement">
+      <p class="kicker">week_03_02, slides 2&ndash;4 &middot; Gailmard &sect;2.1 &middot; Imai Ch. 3</p>
+      <h2>Measurement &amp; data structure</h2>
+      <div class="sources">
+        <span class="src-tag">Slides: Descriptive Stats &amp; Data Viz 02</span>
+        <span class="src-tag text">Gailmard &sect;2.1&ndash;2.1.3</span>
+        <span class="src-tag text">Imai, QSS, Ch. 3</span>
+      </div>
+      <p>Before you can summarize a variable, you have to know what kind of variable it is &mdash; this determines which summary statistics are even meaningful (this is the direct answer to Quiz Q7 below).</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Scale</th><th>What it means</th><th>Example</th><th>Valid operations</th></tr></thead>
+          <tbody>
+            <tr><td>Nominal</td><td>Unordered categories</td><td>most-trusted news source, gender</td><td>counts, mode only</td></tr>
+            <tr><td>Ordinal</td><td>Ordered, but unequal/unknown spacing</td><td>7-point party ID, Polity democracy score</td><td>+ median, ranking</td></tr>
+            <tr><td>Interval</td><td>Equal spacing, no true zero</td><td>temperature in &deg;C</td><td>+ differences, mean</td></tr>
+            <tr><td>Ratio (cardinal)</td><td>Equal spacing <em>and</em> a true zero</td><td>income, duration of war, birth weight</td><td>+ ratios ("twice as much")</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Gailmard's version of this table uses "cardinal" where the slides say "ratio" &mdash; same concept, different label. Categorical variables get their own vocabulary too: <strong>dichotomous/binary</strong> (two categories, e.g. voted/didn't) versus <strong>polychotomous/multinomial</strong> (three or more, e.g. TV/newspaper/radio/online/none).</p>
+
+      <h3>Index construction</h3>
+      <p>Sometimes a concept is broken into components and then reaggregated into one measure &mdash; e.g. a <em>Democracy Index</em> = Elections + Civil Rights + Press Freedom, or Putnam's 14-dimension Social Capital Index. The tradeoff: combining components into one number is convenient, but it forces every subcomponent to relate to outcomes the same way, and it hides how the subcomponents behave individually. Whether that's a reasonable assumption is itself something you can test (Gailmard points to <em>factor analysis</em> as the formal tool for checking whether subvariables really tap one underlying dimension).</p>
+
+      <h3>Measurement validity</h3>
+      <div class="grid-3">
+        <div class="chip-card"><div class="t">Face validity</div><div class="d">does it subjectively "seem relevant" to the concept?</div></div>
+        <div class="chip-card"><div class="t">Content validity</div><div class="d">does it capture <em>all</em> important facets of the concept?</div></div>
+        <div class="chip-card"><div class="t">Construct validity</div><div class="d">does it relate to other measures the way theory says it should?</div></div>
+      </div>
+      <p style="margin-top:10px">The slides add a fourth label, <strong>criterion validity</strong> (does the measure predict what it should?) &mdash; useful to know both framings exist, since instructors phrase this differently across texts.</p>
+
+      <h3>Data structure vocabulary</h3>
+      <p>A dataset has <strong>N</strong> observations (units) on <strong>k</strong> variables. If every unit is observed once at the same point in time, the data is <strong>cross-sectional</strong>; one unit tracked over time is a <strong>time series</strong>; many units tracked over time is <strong>panel / longitudinal / time-series&ndash;cross-sectional</strong> data.</p>
+    </section>
+
+    <section id="central">
+      <p class="kicker">week_03_01 &amp; 02 &middot; Gailmard &sect;2.2.1 &middot; Gill &sect;8.4</p>
+      <h2>Central tendency</h2>
+      <div class="sources">
+        <span class="src-tag">Slides: both decks</span>
+        <span class="src-tag text">Gailmard &sect;2.2.1</span>
+        <span class="src-tag text">Gill &sect;8.4</span>
+      </div>
+      <div class="formula-box">
+        <div class="label">Mean</div>
+        \[ \bar x = \frac1N\sum_{i=1}^N x_i \]
+      </div>
+      <p>Three properties worth internalizing, all from Gailmard: the mean always falls between the smallest and largest observation; if every value is rescaled \(y_i=kx_i\), the mean rescales the same way (\(\bar y = k\bar x\)); and if a constant is added to every value, the mean shifts by that same constant. The mean is also the <em>unique</em> number that minimizes mean squared error &mdash; the proof is the same one in the calculus section above.</p>
+      <div class="callout">
+        <h4>Weighted mean &mdash; a real trap</h4>
+        <p>The plain sample mean gives every observation equal weight (\(w_i = 1/N\)), which can mislead when units are unequal in size. Gailmard's example: averaging George W. Bush's 2004 vote share <em>across California's 58 counties</em> gives 52.4%, because a tiny rural county counts the same as Los Angeles. Weighting each county by its share of total ballots (\(w_i = \) county ballots / total ballots) gives the correct statewide figure of 44%. Neither number is "wrong" &mdash; they answer different questions.</p>
+      </div>
+      <div class="callout warn">
+        <h4>Ecological fallacy / Simpson's paradox</h4>
+        <p>A group average can move in the <em>opposite</em> direction from every subgroup's average, if the composition of the subgroups shifts at the same time (Gailmard's example: overall SAT scores can decline even while every demographic subgroup's scores rise, if the mix of test-takers changes). The lesson: you cannot infer individual-level behavior from group-level statistics.</p>
+      </div>
+
+      <h3>Median &amp; mode</h3>
+      <p>The <strong>median</strong> is the middle value of the ordered data: at position \(\frac{N+1}{2}\) for odd \(N\); for even \(N\) any value between the two middle observations qualifies, so by convention analysts report their midpoint. Unlike the mean, the median is an <em>order statistic</em> &mdash; it depends only on rank, not magnitude, so you can move the largest value arbitrarily far away without moving the median at all. That's exactly why it's the standard choice for income or house-price data with a few extreme values, and it minimizes <em>mean absolute error</em> rather than squared error.</p>
+      <p>Quantiles generalize this: <strong>quartiles</strong> cut the data into 4 parts (the median is the 2nd quartile), <strong>quintiles</strong> into 5 (common for income-inequality comparisons), <strong>percentiles</strong> into 100.</p>
+      <p>The <strong>mode</strong> is simply the most frequent value &mdash; the only measure of central tendency defined for a nominal variable, since "middle" and "average" require an ordering that nominal categories don't have. It's also, in a betting-game sense, the single best guess when you win a fixed prize only for an exact match.</p>
+      <div class="callout">
+        <h4>Choosing among the three</h4>
+        <p>Rule of thumb from the slides: for a <strong>skewed</strong> distribution use the median (robust to the tail); for a roughly <strong>symmetric</strong> distribution the mean is fine and uses more information. For a <strong>nominal</strong> variable you have no choice &mdash; only the mode is defined.</p>
+      </div>
+    </section>
+
+    <section id="dispersion">
+      <p class="kicker">week_03_01 &amp; 02 &middot; Gailmard &sect;2.2.2 &middot; Gill &sect;8.5</p>
+      <h2>Dispersion &amp; shape</h2>
+      <div class="sources">
+        <span class="src-tag">Slides: both decks</span>
+        <span class="src-tag text">Gailmard &sect;2.2.2</span>
+        <span class="src-tag text">Gill &sect;8.5</span>
+      </div>
+      <p>Central tendency answers "what's typical?" Dispersion answers the equally important follow-up: "how typical is typical?"</p>
+      <div class="grid-2">
+        <div class="chip-card"><div class="t">Range</div><div class="d">max &minus; min</div></div>
+        <div class="chip-card"><div class="t">IQR</div><div class="d">\(Q_3-Q_1\), the middle 50% of the data</div></div>
+      </div>
+      <div class="formula-box">
+        <div class="label">Sample variance</div>
+        \[ s^2 = \frac{\sum_{i=1}^N (x_i-\bar x)^2}{N-1} \]
+        <p style="margin:8px 0 0;font-size:0.9rem;color:var(--ink-soft)">Equivalently \(\mathrm{Var}(X)=E[(X-\mu)^2]=E[X^2]-(E[X])^2\), a computational identity that shows up constantly in derivations.</p>
+      </div>
+      <div class="formula-box">
+        <div class="label">Standard deviation</div>
+        \[ s=\sqrt{s^2} \]
+        <p style="margin:8px 0 0;font-size:0.9rem;color:var(--ink-soft)">Same units as the original data (variance is in squared units, which is why we take the square root back out). Interpret it as the "typical departure from the mean."</p>
+      </div>
+      <div class="callout">
+        <h4>Why \(N-1\), not \(N\)?</h4>
+        <p>Gailmard calls the \(N-1\) denominator an "almost-mean." The rigorous justification (unbiasedness) waits for a later chapter on inference, but the practical intuition holds now: dividing by the smaller number \(N-1\) makes the variance estimate a little larger, which is a conservative move &mdash; it makes it harder to mistakenly call an observation "atypical." For any reasonable sample size the difference between the two denominators is tiny.</p>
+      </div>
+      <div class="callout warn">
+        <h4>Outlier fences (the 1.5&times;IQR rule)</h4>
+        <div class="formula-box" style="margin:10px 0;">\[ \text{upper fence} = Q_3 + 1.5\times\mathrm{IQR} \qquad \text{lower fence} = Q_1 - 1.5\times\mathrm{IQR} \]</div>
+        <p>Anything beyond either fence is flagged as an outlier. This is the exact mechanic behind Quiz Q5 below, and it's what a boxplot's whiskers are drawn to.</p>
+      </div>
+
+      <h3>Higher-order moments</h3>
+      <p>Mean and variance are the 1st and 2nd moments of a distribution. The next two describe its <em>shape</em>:</p>
+      <div class="grid-2">
+        <div class="chip-card"><div class="t">Skewness \(=\dfrac{E[(X-\mu)^3]}{\sigma^3}\)</div><div class="d">asymmetry &mdash; positive skew = long right tail (e.g. income, campaign contributions); negative skew = long left tail</div></div>
+        <div class="chip-card"><div class="t">Kurtosis \(=\dfrac{E[(X-\mu)^4]}{\sigma^4}\)</div><div class="d">peakedness/tail weight &mdash; "leptokurtic" = sharp peak, heavy tails; "platykurtic" = flatter, fewer extremes</div></div>
+      </div>
+
+      <h3>Method of moments &amp; the data-generating process</h3>
+      <p>The <strong>method of moments</strong> estimates parameters by setting theoretical moments (functions of the unknown parameters) equal to their empirical, sample-based counterparts, then solving. For \(X_i \sim N(\mu,\sigma^2)\):</p>
+      <div class="formula-box">\[ \hat\mu = \bar x = \frac1n\sum x_i \qquad \hat\sigma^2 = s^2 = \frac1n\sum(x_i-\bar x)^2 \]</div>
+      <div class="callout">
+        <h4>Notation trap to watch for</h4>
+        <p>Notice the method-of-moments variance above uses <code>1/n</code>, not <code>1/(n&minus;1)</code>. Method-of-moments estimators are defined against the population moment formula; the \(N-1\) correction shown earlier is specific to the sample variance as an <em>unbiased estimator</em>. Don't mix the two up on the quiz or in a problem set.</p>
+      </div>
+      <p>Zooming out: a <strong>data-generating process (DGP)</strong> is the theoretical model of how real data actually arise &mdash; systematic components plus randomness (e.g., a voter's fixed preference plus a random turnout shock). Simulating a DGP (e.g., repeatedly drawing from a Binomial model of voting) is how you build intuition for how an estimator behaves before you ever see real data.</p>
+    </section>
+
+    <section id="relationships">
+      <p class="kicker">week_03_02, slides 9&ndash;12 &middot; Gailmard &sect;2.3.2&ndash;2.3.4 &middot; Gill &sect;8.6</p>
+      <h2>Covariance, correlation &amp; conditional means</h2>
+      <div class="sources">
+        <span class="src-tag">Slides: Descriptive Stats &amp; Data Viz 02</span>
+        <span class="src-tag text">Gailmard &sect;2.3.2&ndash;2.3.4</span>
+        <span class="src-tag text">Gill &sect;8.6</span>
+      </div>
+      <p>A <strong>bivariate distribution</strong> is two variables observed on the same units. Once both variables can take many values, three tools let you describe how they move together.</p>
+
+      <h3>Crosstabs &amp; conditional means</h3>
+      <p>A <strong>crosstab</strong> (contingency table) cross-tabulates two categorical variables; the row and column totals ("marginals") recover each variable's own univariate distribution &mdash; the same "integrate out the other variable" logic from the <a href="#calculus">marginal-density formula above</a>, just in table form.</p>
+      <pre><code>table(mtcars$cyl, mtcars$gear)
+prop.table(table(mtcars$cyl, mtcars$gear), margin = 1)</code></pre>
+      <p>A <strong>conditional mean</strong>, \(\bar y(x)\), is the mean of \(y\) restricted to observations where \(x\) takes a specific value &mdash; the workhorse building block underneath regression. In R:</p>
+      <pre><code>tapply(mtcars$mpg, mtcars$cyl, mean)</code></pre>
+
+      <h3>Covariance &amp; correlation</h3>
+      <div class="formula-box">
+        <div class="label">Covariance</div>
+        \[ \mathrm{Cov}(x,y) = \frac{\sum(x_i-\bar x)(y_i - \bar y)}{N-1} \]
+        <p style="margin:8px 0 0;font-size:0.9rem;color:var(--ink-soft)"><code>cov(mtcars$mpg, mtcars$hp)</code> &rarr; &minus;320.73. Sign tells you direction; magnitude is <strong>scale-dependent</strong> &mdash; it changes if you switch units (e.g., dollars to thousands of dollars).</p>
+      </div>
+      <div class="formula-box">
+        <div class="label">Correlation</div>
+        \[ r_{xy} = \mathrm{Cor}(x,y) = \frac{\mathrm{Cov}(x,y)}{s_x s_y} \]
+        <p style="margin:8px 0 0;font-size:0.9rem;color:var(--ink-soft)"><code>cor(mtcars$mpg, mtcars$hp)</code> &rarr; &minus;0.776. Always between &minus;1 and 1, and &mdash; unlike covariance &mdash; <strong>unit-free</strong>: rescaling either variable leaves \(r\) unchanged, because the rescaling affects the covariance and the relevant SD identically and they cancel. This is exactly why correlation, not covariance, is the number you report and compare across datasets (this is the full answer to Quiz Q3c below).</p>
+      </div>
+      <div class="callout warn">
+        <h4>Correlation is not causation</h4>
+        <p>Correlation (and covariance) capture only <em>linear</em> association, and even a strong one never establishes that one variable causes the other. A confounder driving both variables, or reverse causation, can produce the exact same correlation coefficient as a genuine causal effect. This is the crux of Quiz Q6 below.</p>
+      </div>
+    </section>
+
+    <section id="regression">
+      <p class="kicker">week_03_02, slides 13&ndash;17 &middot; Gailmard &sect;2.3.5&ndash;2.3.7</p>
+      <h2>Regression</h2>
+      <div class="sources">
+        <span class="src-tag">Slides: Descriptive Stats &amp; Data Viz 02</span>
+        <span class="src-tag text">Gailmard &sect;2.3.5&ndash;2.3.7 + appendix</span>
+      </div>
+      <p>A linear regression is a smoothed, straight-line version of the conditional-mean function above &mdash; the same idea, made concise at the cost of flattening any curvature in the true relationship.</p>
+      <div class="formula-box">
+        <div class="label">Simple (bivariate) regression</div>
+        \[ Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i \]
+      </div>
+      <pre><code>model1 &lt;- lm(mpg ~ hp, data = mtcars)
+summary(model1)
+#            Estimate Std. Error t value Pr(&gt;|t|)
+# (Intercept) 30.09886    1.63392  18.421  &lt; 2e-16 ***
+# hp          -0.06823    0.01012  -6.742 1.79e-07 ***
+# Multiple R-squared:  0.6024,  Adjusted R-squared:  0.5892</code></pre>
+
+      <h3>Where the OLS formula comes from</h3>
+      <p>Just like the sample mean, the least-squares line is defined as whatever minimizes mean squared error &mdash; now the squared error of the whole line, \(\sum(Y_i-\beta_0-\beta_1X_i)^2\). Taking the partial derivative with respect to each coefficient and setting both to zero (the <em>normal equations</em>, straight out of the <a href="#calculus">partial-derivatives section</a>) yields:</p>
+      <div class="formula-box">\[ \hat\beta_1 = \frac{\sum_{i=1}^n (X_i-\bar X)(Y_i-\bar Y)}{\sum_{i=1}^n (X_i - \bar X)^2} = \frac{\mathrm{Cov}(X,Y)}{\mathrm{Var}(X)} = r\frac{s_y}{s_x} \qquad \hat\beta_0 = \bar Y - \hat\beta_1\bar X \]</div>
+      <p>Two properties fall out of this derivation automatically, and both are worth remembering as sanity checks: the residuals always average to exactly zero, and the residuals are always uncorrelated with the covariate \(X\).</p>
+
+      <h3>Multiple regression</h3>
+      <div class="formula-box">\[ Y_i = \beta_0 + \beta_1 X_{1i} + \cdots + \beta_k X_{ki} + \varepsilon_i \qquad \hat{\boldsymbol\beta} = (\mathbf X^\top\mathbf X)^{-1}\mathbf X^\top \mathbf Y \]</div>
+      <pre><code>model2 &lt;- lm(mpg ~ hp + wt + cyl, data = mtcars)
+# hp   -0.01804   (not significant once wt, cyl included)
+# wt   -3.16697 **
+# cyl  -0.94162  .
+# Multiple R-squared:  0.8431,  Adjusted R-squared:  0.8263</code></pre>
+      <p>Each slope is a <strong>marginal effect</strong>: the association between that one covariate and \(y\), holding the others fixed. Mechanically, Gailmard shows this is equivalent to (1) regressing \(X_1\) on \(X_2\) and keeping the residuals (the part of \(X_1\) unrelated to \(X_2\)), (2) doing the same for \(Y\) on \(X_2\), then (3) regressing those two sets of residuals on each other. That's what "controlling for" or "holding constant" means underneath the hood.</p>
+      <div class="callout warn">
+        <h4>Multicollinearity</h4>
+        <p>If two covariates are highly correlated with each other, it becomes statistically difficult to separate their individual effects on \(y\) &mdash; a rule of thumb is to worry when regressing one covariate on the others gives \(R^2\) above roughly 0.75. More data (not a different method) is the fix, since it's fundamentally a problem of not enough independent variation to work with.</p>
+      </div>
+
+      <h3>\(R^2\)</h3>
+      <p>\(R^2\) is the share of the total variance in \(y\) explained by the regression:</p>
+      <div class="formula-box">\[ R^2 = 1-\frac{\mathrm{Var}(e)}{\mathrm{Var}(y)} \]</div>
+      <p>In a simple bivariate regression this collapses to \(R^2=r^2\), the squared correlation coefficient. Adjusted \(R^2\) (\(\bar R^2\)) corrects for the fact that plain \(R^2\) mechanically increases every time you add a variable, even a useless one &mdash; use it, not \(R^2\), once you're comparing multiple-regression models.</p>
+      <div class="callout">
+        <h4>What regression does <em>not</em> tell you</h4>
+        <p>Regression is a descriptive tool: it summarizes the linear association actually present in the observed data. Nothing about running <code>lm()</code> licenses a causal claim &mdash; a negative slope between the Gini coefficient and per-capita GDP describes a pattern in the data, not what would happen to any one country's GDP if its inequality changed.</p>
+      </div>
+    </section>
+
+    <section id="viz">
+      <p class="kicker">week_03_02, slides 18&ndash;21 &middot; Gailmard &sect;2.2.3, &sect;2.3.1</p>
+      <h2>Visualization</h2>
+      <div class="sources">
+        <span class="src-tag">Slides: Descriptive Stats &amp; Data Viz 02</span>
+        <span class="src-tag text">Gailmard &sect;2.2.3, &sect;2.3.1</span>
+      </div>
+      <div class="grid-3">
+        <div class="chip-card"><div class="t">Histogram</div><div class="d">bar chart of a single variable's frequency by bin. If bins have unequal widths, switch the y-axis to <em>density</em> (relative frequency &divide; bin width), or a wide bin looks artificially tall.</div></div>
+        <div class="chip-card"><div class="t">Boxplot</div><div class="d">box spans \(Q_1\) to \(Q_3\); the line inside is the median; whiskers reach to the non-outlier extremes; points beyond the 1.5&times;IQR fences are flagged. Great for comparing several groups side by side.</div></div>
+        <div class="chip-card"><div class="t">Scatterplot</div><div class="d">one point per unit; upward drift = positive relationship, downward = negative, and it's the one plot that reveals nonlinearity a correlation coefficient would hide.</div></div>
+      </div>
+
+      <h3>Exploratory vs. explanatory plots</h3>
+      <p><strong>Exploratory</strong> plots are for you: flexible, iterative, and unpolished, built to reveal patterns and test your own assumptions while you're still poking at the data. <strong>Explanatory</strong> plots are for your reader: focused, clean, and built to communicate one finding clearly. Knowing which one you're making changes what "done" looks like.</p>
+
+      <div class="callout warn">
+        <h4>Common visual misrepresentations</h4>
+        <ul style="margin-bottom:0">
+          <li><strong>Truncated axes / misleading scales</strong> &mdash; a y-axis that doesn't start at zero (or has unequal intervals) exaggerates differences.</li>
+          <li><strong>Pie charts</strong> &mdash; fine for showing shares of a whole, but ineffective with many similarly sized categories, and simply the wrong tool for showing the distribution of a numeric variable (this is the full answer to Quiz Q2b below). Humans are also just bad at comparing angles.</li>
+          <li><strong>Cherry-picked data</strong> &mdash; presenting a selective subset without the surrounding context.</li>
+        </ul>
+      </div>
+      <p><strong>Best practices:</strong> clear axis labels and legends, a plot type that matches the variable's measurement scale, minimal visual clutter, and always cite your data source.</p>
+    </section>
+
+    <section id="quiz">
+      <p class="kicker">practice_quiz_03.pdf + answer key</p>
+      <h2>Practice Quiz 3 &mdash; fully worked</h2>
+      <p>Every problem below, worked step by step, with a pointer back to the section that explains the underlying idea.</p>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">1</div><div class="qtext">For the sample \(x=\{1,3,5,7,9\}\): (a) compute the sample mean; (b) compute the sample variance using the \(n-1\) denominator; (c) state the sample standard deviation.</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p class="part"><span class="plabel">(a)</span> \(\bar x = \frac{1+3+5+7+9}{5} = \frac{25}{5} = 5\).</p>
+          <p class="part"><span class="plabel">(b)</span> Deviations from the mean: \(-4,-2,0,2,4\). Squared: \(16,4,0,4,16\), summing to 40. Divide by \(n-1=4\): \(s^2 = 40/4 = 10\).</p>
+          <p class="part"><span class="plabel">(c)</span> \(s=\sqrt{10}\approx 3.16\).</p>
+          <span class="quiz-see">See <a href="#dispersion">Dispersion &amp; shape</a> for why the denominator is \(n-1\).</span>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">2</div><div class="qtext">You want to compare the distribution of years of education across five provinces in one figure. (a) Name an appropriate plot type and one reason it fits. (b) Give one reason a pie chart is a poor choice for this task.</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p class="part"><span class="plabel">(a)</span> Side-by-side boxplots (or violin plots): they show center, spread, and outliers for every province at once and put them in direct visual alignment for comparison.</p>
+          <p class="part"><span class="plabel">(b)</span> A pie chart shows shares of a whole for one categorical variable; it cannot display the distribution of a numeric variable like years of education, and comparing wedge angles across five separate pies is much harder for a reader than comparing five aligned boxes.</p>
+          <span class="quiz-see">See <a href="#viz">Visualization</a>.</span>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">3</div><div class="qtext">Two variables have \(\mathrm{Cov}(X,Y)=18\), \(\sigma_X=6\), \(\sigma_Y=5\). (a) Compute the correlation. (b) Interpret its sign and strength. (c) If \(X\) were re-expressed in different units (dollars instead of thousands of dollars), what happens to the covariance and to the correlation?</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p class="part"><span class="plabel">(a)</span> \(r = \dfrac{18}{6\times5} = 0.6\).</p>
+          <p class="part"><span class="plabel">(b)</span> Positive and moderately strong: higher \(X\) tends to accompany higher \(Y\).</p>
+          <p class="part"><span class="plabel">(c)</span> The covariance changes &mdash; it's scale-dependent, since it's built from raw deviations in the variable's own units. The correlation is unchanged, because it's the covariance divided by both standard deviations, and rescaling affects the covariance and the relevant SD by the identical factor, which cancels. That unit-free property is exactly why correlation, not covariance, is the number you report for comparison.</p>
+          <span class="quiz-see">See <a href="#relationships">Covariance &amp; correlation</a>.</span>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">4</div><div class="qtext">Five districts report protest counts of 10, 12, 14, 20, and 44. (a) Compute the mean and the median. (b) Compute the IQR treating \(Q_1=12\) and \(Q_3=20\). (c) Which pair of summaries (mean/SD or median/IQR) better describes these data, and why?</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p class="part"><span class="plabel">(a)</span> Mean \(=\frac{10+12+14+20+44}{5}=\frac{100}{5}=20\). Median (middle of the ordered list) \(=14\).</p>
+          <p class="part"><span class="plabel">(b)</span> \(\mathrm{IQR}=Q_3-Q_1=20-12=8\).</p>
+          <p class="part"><span class="plabel">(c)</span> Median/IQR: the outlier value of 44 pulls the mean up to roughly the 80th percentile of the data and would inflate the SD in the same way, so the robust pair gives a truer picture of where the bulk of the districts actually sit.</p>
+          <span class="quiz-see">See <a href="#central">Central tendency</a> and <a href="#dispersion">Dispersion &amp; shape</a>.</span>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">5</div><div class="qtext">A boxplot has \(Q_1=20\) and \(Q_3=36\). (a) Compute the IQR. (b) Using the 1.5&times;IQR rule, compute the upper and lower fences beyond which points are flagged as outliers. (c) What summary statistic is the line inside the box?</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p class="part"><span class="plabel">(a)</span> \(\mathrm{IQR} = 36-20=16\).</p>
+          <p class="part"><span class="plabel">(b)</span> Lower fence \(=20-1.5(16)=20-24=-4\). Upper fence \(=36+1.5(16)=36+24=60\).</p>
+          <p class="part"><span class="plabel">(c)</span> The median.</p>
+          <span class="quiz-see">See <a href="#dispersion">Dispersion &amp; shape</a> for the fence rule and <a href="#viz">Visualization</a> for boxplot anatomy.</span>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">6</div><div class="qtext">Researcher A finds \(r=-0.9\) between unemployment and incumbent vote share; Researcher B finds \(r=-0.2\) between rainfall and turnout. (a) Compare the two relationships in strength and direction. (b) Researcher A concludes that unemployment <em>causes</em> incumbents to lose votes. Give one reason this conclusion does not follow from the correlation alone.</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p class="part"><span class="plabel">(a)</span> Both relationships are negative. A's is very strong &mdash; the points cluster tightly around a downward-sloping line &mdash; while B's is weak, with points much more scattered.</p>
+          <p class="part"><span class="plabel">(b)</span> Correlation never establishes causation on its own. A confounder could generate the same pattern &mdash; e.g., an economic crisis that independently drives up unemployment and drives down support for incumbents through other channels &mdash; or the causal arrow could run in some other direction entirely.</p>
+          <span class="quiz-see">See <a href="#relationships">Covariance &amp; correlation</a>, "Correlation is not causation."</span>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">7</div><div class="qtext">You have a nominal variable: respondents' most trusted news source (TV, newspaper, radio, online, none). Which measure of central tendency is defined for this variable, and why are the other two inappropriate?</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p>Only the <strong>mode</strong> is defined. The mean requires numeric values you can add and divide, and the median requires at least an ordering so that "middle" is meaningful; nominal categories have neither, so both "average" and "middle" are undefined here.</p>
+          <span class="quiz-see">See <a href="#measurement">Measurement &amp; data structure</a> and <a href="#central">Central tendency</a>.</span>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">8</div><div class="qtext">In R, <code>mean(x)</code> returns <code>NA</code> because the income variable has missing values. (a) What argument fixes this, and what does it do? (b) You instead drop every row with any missing value (listwise deletion). Give one scenario where this produces a biased picture of the data.</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p class="part"><span class="plabel">(a)</span> <code>mean(x, na.rm = TRUE)</code> &mdash; it drops the <code>NA</code> entries before computing the average.</p>
+          <p class="part"><span class="plabel">(b)</span> If missingness is related to the variable itself &mdash; for instance, high earners disproportionately refuse to report their income &mdash; the cases that remain are no longer representative, and the resulting mean is biased downward. Listwise deletion is only harmless when data are missing <em>completely</em> at random.</p>
+          <span class="quiz-see">A data-quality issue that sits underneath every section here &mdash; a variable's summary statistics are only as trustworthy as the missingness process behind it.</span>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">9</div><div class="qtext">For a <em>left</em>-skewed distribution of exam scores (a long tail of low scores), which is larger, the mean or the median? Which of the two is more robust to the extreme low scores, and why?</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p>The long left tail pulls the mean down below the median, so the <strong>median is larger</strong>. The <strong>median is more robust</strong>: as an order statistic it depends only on which observations sit in the middle of the ranking, not on how extreme the tail values happen to be, whereas the mean is a sum over every value and gets dragged toward whatever the tail contains.</p>
+          <span class="quiz-see">See <a href="#central">Central tendency</a> and <a href="#dispersion">skewness</a>.</span>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q"><div class="quiz-num">10</div><div class="qtext">A turnout measure has mean \(\mu=60\) and standard deviation \(\sigma=10\). A county records \(x=75\). (a) Compute the county's z-score. (b) Interpret it in one sentence. (c) Why are z-scores useful when comparing variables measured on different scales?</div></div>
+        <div class="quiz-a">
+          <h5>Worked solution</h5>
+          <p class="part"><span class="plabel">(a)</span> \(z = \dfrac{75-60}{10}=1.5\).</p>
+          <p class="part"><span class="plabel">(b)</span> The county's turnout sits 1.5 standard deviations above the average county's turnout.</p>
+          <p class="part"><span class="plabel">(c)</span> Standardizing strips away the original units &mdash; every value is re-expressed as "how many of its own standard deviations away from its own mean" &mdash; which makes otherwise incomparable variables (say, turnout percentage vs. campaign spending in dollars) directly comparable on the same scale.</p>
+          <span class="quiz-see">This is a direct extension of the standard-deviation idea in <a href="#dispersion">Dispersion &amp; shape</a> ("typical departure from the mean") &mdash; it isn't spelled out by name in the uploaded slides or Gailmard's chapter, so treat this as the standard textbook definition (also where Gill &sect;8.4&ndash;8.6 would cover it).</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="formulas">
+      <p class="kicker">Quick reference</p>
+      <h2>Formula sheet</h2>
+      <div class="ref-grid">
+        <div class="ref-card"><div class="name">Mean</div>\[ \bar x=\frac1N\sum x_i \]</div>
+        <div class="ref-card"><div class="name">Sample variance</div>\[ s^2=\frac{\sum(x_i-\bar x)^2}{N-1} \]</div>
+        <div class="ref-card"><div class="name">Standard deviation</div>\[ s=\sqrt{s^2} \]</div>
+        <div class="ref-card"><div class="name">IQR &amp; fences</div>\[ \mathrm{IQR}=Q_3-Q_1,\quad \text{fences}=Q_{1,3}\mp1.5\,\mathrm{IQR} \]</div>
+        <div class="ref-card"><div class="name">z-score</div>\[ z=\frac{x-\mu}{\sigma} \]</div>
+        <div class="ref-card"><div class="name">Covariance</div>\[ \mathrm{Cov}(x,y)=\frac{\sum(x_i-\bar x)(y_i-\bar y)}{N-1} \]</div>
+        <div class="ref-card"><div class="name">Correlation</div>\[ r=\frac{\mathrm{Cov}(x,y)}{s_xs_y} \]</div>
+        <div class="ref-card"><div class="name">OLS slope &amp; intercept</div>\[ \hat\beta_1=\frac{\mathrm{Cov}(X,Y)}{\mathrm{Var}(X)},\quad \hat\beta_0=\bar Y-\hat\beta_1\bar X \]</div>
+        <div class="ref-card"><div class="name">\(R^2\)</div>\[ R^2=1-\frac{\mathrm{Var}(e)}{\mathrm{Var}(y)} \]</div>
+        <div class="ref-card"><div class="name">Skewness / kurtosis</div>\[ \frac{E[(X-\mu)^3]}{\sigma^3},\quad \frac{E[(X-\mu)^4]}{\sigma^4} \]</div>
+        <div class="ref-card"><div class="name">Power / log / exp derivatives</div>\[ \tfrac{d}{dx}x^n=nx^{n-1},\ \ \tfrac{d}{dx}\ln x=\tfrac1x,\ \ \tfrac{d}{dx}e^x=e^x \]</div>
+        <div class="ref-card"><div class="name">Chain &amp; product rule</div>\[ (f\circ g)'=f'(g)g',\quad (uv)'=u'v+uv' \]</div>
+      </div>
+    </section>
+
+    <footer>
+      Built from <span class="mono">practice_quiz_03.pdf</span>, its answer key, <span class="mono">week_03_01.pdf</span>, <span class="mono">week_03_02.pdf</span>, <span class="mono">week_03.pdf</span>, and Gailmard's <em>Statistical Modeling and Inference for Social Science</em>, Chapter 2. Imai and Gill page-level citations are topic pointers, not verified quotes &mdash; cross-check against your own copies.
+    </footer>
+  </main>
+</div>
+
+</body></html>
